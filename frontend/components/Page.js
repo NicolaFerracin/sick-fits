@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import styled, {ThemeProvider, injectGlobal} from 'styled-components';
+import React, { Component } from 'react';
+import styled, { ThemeProvider, injectGlobal } from 'styled-components';
 import Header from './Header';
 import Meta from './Meta';
 
@@ -10,7 +10,7 @@ const theme = {
   lightgrey: '#E1E1E1',
   offWhite: '#EDEDED',
   maxWidth: '1000px',
-  bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)'
+  bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
 };
 
 const StyledPage = styled.div`
@@ -57,12 +57,13 @@ injectGlobal`
 
 class Page extends Component {
   render() {
+    const { children } = this.props;
     return (
       <ThemeProvider theme={theme}>
         <StyledPage>
           <Meta />
           <Header />
-          <Inner>{this.props.children}</Inner>
+          <Inner>{children}</Inner>
         </StyledPage>
       </ThemeProvider>
     );
