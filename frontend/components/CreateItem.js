@@ -4,10 +4,9 @@ import Router from 'next/router';
 import gql from 'graphql-tag';
 import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
-import formatMoney from '../lib/formatMoney';
 
-export const CRETE_ITEM_MUTATION = gql`
-  mutation CRETE_ITEM_MUTATION(
+export const CREATE_ITEM_MUTATION = gql`
+  mutation CREATE_ITEM_MUTATION(
     $title: String!
     $description: String!
     $price: Int!
@@ -65,7 +64,7 @@ class CreateItem extends Component {
 
     return (
       <Mutation
-        mutation={CRETE_ITEM_MUTATION}
+        mutation={CREATE_ITEM_MUTATION}
         variables={{ title, description, price, image, largeImage }}
       >
         {(createItem, { loading, error }) => (
