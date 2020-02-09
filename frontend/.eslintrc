@@ -104,7 +104,8 @@
     "react/prop-types": "off",
     "react/jsx-props-no-spreading": "off",
     "jsx-a11y/html-has-lang": "off",
-    "react/state-in-constructor": "off"
+    "react/state-in-constructor": "off",
+    "no-restricted-globals": "off"
   },
   "plugins": [
     // "html",

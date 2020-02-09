@@ -1,29 +1,9 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import Router from 'next/router';
-import gql from 'graphql-tag';
 import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
-
-export const CREATE_ITEM_MUTATION = gql`
-  mutation CREATE_ITEM_MUTATION(
-    $title: String!
-    $description: String!
-    $price: Int!
-    $image: String
-    $largeImage: String
-  ) {
-    createItem(
-      title: $title
-      description: $description
-      price: $price
-      image: $image
-      largeImage: $largeImage
-    ) {
-      id
-    }
-  }
-`;
+import { CREATE_ITEM_MUTATION } from './mutations';
 
 class CreateItem extends Component {
   state = {
