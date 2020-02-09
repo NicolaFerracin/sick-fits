@@ -38,8 +38,26 @@ class CreateItem extends Component {
   handleChange = e => {
     const { name, type, value } = e.target;
     const val = type === 'number' ? parseFloat(value) || '' : value;
-    console.log(val);
     this.setState({ [name]: val });
+  };
+
+  uploadFile = async e => {
+    const { files } = e.target;
+    const data = new FormData();
+    data.append('file', files[0]);
+    data.append('upload_preset', 'sickfits');
+    const res = await fetch(
+      'https://api.cloudinary.com/v1_1/dh5hfqmag/image/upload',
+      {
+        method: 'POST',
+        body: data,
+      }
+    );
+    const file = await res.json();
+    this.setState({
+      image: file.secure_url,
+      largeImage: file.eager[0].secure_url,
+    });
   };
 
   render() {
@@ -55,7 +73,6 @@ class CreateItem extends Component {
             onSubmit={async e => {
               e.preventDefault();
               const res = await createItem();
-              console.log(res);
               Router.push({
                 pathname: '/item',
                 query: { id: res.data.createItem.id },
@@ -64,6 +81,18 @@ class CreateItem extends Component {
           >
             <ErrorMessage error={error} />
             <fieldset disabled={loading} aria-busy={loading}>
+              <label htmlFor="image">
+                Image
+                <input
+                  type="file"
+                  id="image"
+                  name="image"
+                  placeholder="Upload an image"
+                  required
+                  onChange={this.uploadFile}
+                />
+                {image && <img src={image} alt={title} width="200" />}
+              </label>
               <label htmlFor="title">
                 Title
                 <input
