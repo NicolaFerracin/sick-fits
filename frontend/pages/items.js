@@ -1,5 +1,5 @@
 import Home from './index';
 
-const Items = () => <Home />;
+const Items = ({ query }) => <Home query={query} />;
 
 export default Items;
