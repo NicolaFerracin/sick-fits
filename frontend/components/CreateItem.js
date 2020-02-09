@@ -3,7 +3,7 @@ import { Mutation } from 'react-apollo';
 import Router from 'next/router';
 import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
-import { CREATE_ITEM_MUTATION } from './mutations';
+import { CREATE_ITEM_MUTATION } from '../mutations';
 
 class CreateItem extends Component {
   state = {

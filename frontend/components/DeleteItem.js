@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
-import { ALL_ITEMS_QUERY } from './queries';
-import { DELETE_ITEM_MUTATION } from './mutations';
+import { ALL_ITEMS_QUERY } from '../queries';
+import { DELETE_ITEM_MUTATION } from '../mutations';
 
 class DeleteItem extends Component {
   attemptDelete = deleteItem => {

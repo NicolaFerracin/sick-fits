@@ -3,7 +3,7 @@ import { Query } from 'react-apollo';
 import styled from 'styled-components';
 import Head from 'next/head';
 import ErrroMessage from './ErrorMessage';
-import { SINGLE_ITEM_QUERY } from './queries';
+import { SINGLE_ITEM_QUERY } from '../queries';
 
 const SingleItemStyles = styled.div`
   max-width: 1200px;

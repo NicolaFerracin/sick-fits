@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
-import { UPDATE_ITEM_MUTATION } from './mutations';
-import { SINGLE_ITEM_QUERY } from './queries';
+import { UPDATE_ITEM_MUTATION } from '../mutations';
+import { SINGLE_ITEM_QUERY } from '../queries';
 
 class UpdateItem extends Component {
   state = {};

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import styled from 'styled-components';
 import Item from './Item';
-import { ALL_ITEMS_QUERY } from './queries';
+import { ALL_ITEMS_QUERY } from '../queries';
 
 const Center = styled.div`
   text-align: center;
