@@ -79,3 +79,11 @@ export const SIGNOUT_MUTATION = gql`
     }
   }
 `;
+
+export const REQUEST_RESET_MUTATION = gql`
+  mutation REQUEST_RESET_MUTATION($email: String!) {
+    requestReset(email: $email) {
+      message
+    }
+  }
+`;

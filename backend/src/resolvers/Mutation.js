@@ -87,7 +87,7 @@ const Mutations = {
     return { message: 'DOne!' };
   },
   async resetPassword(parent, args, ctx, info) {
-    const { email, resetToken, password, confirmPassword } = args;
+    const { resetToken, password, confirmPassword } = args;
     if (password !== confirmPassword) {
       throw new Error('Password and confirmed password do not match.');
     }
@@ -102,7 +102,7 @@ const Mutations = {
     }
     const newPassword = await bcrypt.hash(args.password, 10);
     const updatedUser = await ctx.db.mutation.updateUser({
-      where: { email },
+      where: { email: user.email },
       data: {
         password: newPassword,
         resetToken: null,
