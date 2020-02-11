@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
+const { transport, makeNiceEmail } = require('../mail.js');
 
 const JWT_EXPIRATION = 1000 * 60 * 60 * 24 * 7; // 7 days
 const RESET_PASSWORD_TOKEN_EXPIRATION = 1000 * 60 * 60; // 1 hour
@@ -83,8 +84,16 @@ const Mutations = {
       where: { email },
       data: { resetToken, resetTokenExpiry },
     });
-    // TODO Send email with reset token
-    return { message: 'DOne!' };
+    const mailRes = await transport.sendMail({
+      from: 'nicola@example.com',
+      to: user.email,
+      subject: 'Your Password Reset Token',
+      html: makeNiceEmail(
+        `Your Password Reset Token is here!\n\n<a href="${process.env.FRONTEND_URL}/resetPassword?resetToken=${resetToken}">Click here to reset your password</a>`
+      ),
+    });
+
+    return { message: 'Done' };
   },
   async resetPassword(parent, args, ctx, info) {
     const { resetToken, password, confirmPassword } = args;
