@@ -37,7 +37,7 @@ export const PAGINATION_QUERY = gql`
 `;
 
 export const CURRENT_USER_QUERY = gql`
-  query {
+  query CURRENT_USER_QUERY {
     me {
       id
       email
