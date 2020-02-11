@@ -6,7 +6,7 @@ import { DELETE_ITEM_MUTATION } from '../mutations';
 class DeleteItem extends Component {
   attemptDelete = deleteItem => {
     if (confirm('Are you sure you want to delete this item?')) {
-      deleteItem();
+      deleteItem().catch(e => alert(e.message));
     }
   };
 
