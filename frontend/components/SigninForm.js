@@ -2,35 +2,34 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
-import { SIGNUP_MUTATION } from '../mutations';
+import { SIGNIN_MUTATION } from '../mutations';
 import { CURRENT_USER_QUERY } from '../queries';
 
-class SignupForm extends Component {
+class SigninForm extends Component {
   state = {
     email: '',
-    name: '',
     password: '',
   };
 
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
 
-  onSubmit = async (e, signup) => {
+  onSubmit = async (e, signin) => {
     e.preventDefault();
-    await signup();
-    this.setState({ email: '', name: '', password: '' });
+    await signin();
+    this.setState({ email: '', password: '' });
   };
 
   render() {
-    const { email, name, password } = this.state;
+    const { email, password } = this.state;
 
     return (
       <Mutation
-        mutation={SIGNUP_MUTATION}
-        variables={{ email, name, password }}
+        mutation={SIGNIN_MUTATION}
+        variables={{ email, password }}
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
-        {(signup, { error, loading }) => (
-          <Form method="post" onSubmit={e => this.onSubmit(e, signup)}>
+        {(signin, { error, loading }) => (
+          <Form method="post" onSubmit={e => this.onSubmit(e, signin)}>
             <fieldset disabled={loading} aria-busy={loading}>
               <h2>Sign up!</h2>
               <ErrorMessage error={error} />
@@ -44,16 +43,6 @@ class SignupForm extends Component {
                   onChange={this.handleChange}
                 />
               </label>
-              <label htmlFor="name">
-                Name
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="name"
-                  value={name}
-                  onChange={this.handleChange}
-                />
-              </label>
               <label htmlFor="password">
                 Password
                 <input
@@ -64,7 +53,7 @@ class SignupForm extends Component {
                   onChange={this.handleChange}
                 />
               </label>
-              <button type="submit">Sign up!</button>
+              <button type="submit">Sign in!</button>
             </fieldset>
           </Form>
         )}
@@ -73,4 +62,4 @@ class SignupForm extends Component {
   }
 }
 
-export default SignupForm;
+export default SigninForm;
