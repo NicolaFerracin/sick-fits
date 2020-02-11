@@ -87,3 +87,21 @@ export const REQUEST_RESET_MUTATION = gql`
     }
   }
 `;
+
+export const RESET_PASSWORD_MUTATION = gql`
+  mutation RESET_PASSWORD_MUTATION(
+    $password: String!
+    $confirmPassword: String!
+    $resetToken: String!
+  ) {
+    resetPassword(
+      password: $password
+      confirmPassword: $confirmPassword
+      resetToken: $resetToken
+    ) {
+      id
+      email
+      name
+    }
+  }
+`;
