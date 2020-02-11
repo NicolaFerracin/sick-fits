@@ -9,11 +9,14 @@ const RESET_PASSWORD_TOKEN_EXPIRATION = 1000 * 60 * 60; // 1 hour
 
 const Mutations = {
   async createItem(parent, args, ctx, info) {
-    // TODO check if logged in
+    if (!ctx.request.userId) {
+      throw new Error('You must logged in to perform this action.');
+    }
     const item = await ctx.db.mutation.createItem(
       {
         data: {
           ...args,
+          user: { connect: { id: ctx.request.userId } },
         },
       },
       info

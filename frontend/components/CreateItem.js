@@ -67,7 +67,6 @@ class CreateItem extends Component {
                   id="image"
                   name="image"
                   placeholder="Upload an image"
-                  required
                   onChange={this.uploadFile}
                 />
                 {image && <img src={image} alt={title} width="200" />}
