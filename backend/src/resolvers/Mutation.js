@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
 const { transport, makeNiceEmail } = require('../mail.js');
+const { hasPermission } = require('../utils');
 
 const JWT_EXPIRATION = 1000 * 60 * 60 * 24 * 7; // 7 days
 const RESET_PASSWORD_TOKEN_EXPIRATION = 1000 * 60 * 60; // 1 hour
@@ -127,6 +128,28 @@ const Mutations = {
       maxAge: JWT_EXPIRATION,
     });
     return updatedUser;
+  },
+  async updatePermissions(parent, args, ctx, info) {
+    const { userId } = ctx.request;
+    if (!userId) {
+      throw new Error('You must be logged in to continue');
+    }
+    const user = await ctx.db.query.user({ where: { id: userId } }, info);
+    console.log({ user });
+    hasPermission(user, ['ADMIN', 'PERMISSIONUPDATE']);
+    return ctx.db.mutation.updateUser(
+      {
+        data: {
+          permissions: {
+            set: args.permissions,
+          },
+        },
+        where: {
+          id: args.userId,
+        },
+      },
+      info
+    );
   },
 };
 
