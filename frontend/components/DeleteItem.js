@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { ALL_ITEMS_QUERY } from '../queries';
 import { DELETE_ITEM_MUTATION } from '../mutations';
+import { perPage } from '../config';
 
 class DeleteItem extends Component {
   attemptDelete = deleteItem => {
@@ -12,9 +13,11 @@ class DeleteItem extends Component {
 
   update = (cache, payload) => {
     // after deleting an item on the server, we need to update the local cache
-    const data = cache.readQuery({ query: ALL_ITEMS_QUERY });
+    const { page: currentPage } = this.props;
+    const variables = { skip: (currentPage - 1) * perPage };
+    const data = cache.readQuery({ query: ALL_ITEMS_QUERY, variables });
     data.items = data.items.filter(i => i.id !== payload.data.deleteItem.id);
-    cache.writeQuery({ query: ALL_ITEMS_QUERY, data });
+    cache.writeQuery({ query: ALL_ITEMS_QUERY, data, variables });
   };
 
   render() {
@@ -25,7 +28,7 @@ class DeleteItem extends Component {
         variables={{ id }}
         update={this.update}
       >
-        {(deleteItem, { error }) => (
+        {deleteItem => (
           <button type="button" onClick={() => this.attemptDelete(deleteItem)}>
             {children}
           </button>

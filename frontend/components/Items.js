@@ -21,20 +21,19 @@ const ItemsList = styled.div`
 class Items extends Component {
   render() {
     const { page } = this.props;
+    const skip = page * perPage - perPage;
+
     return (
       <Center>
         <Pagination page={page} />
-        <Query
-          query={ALL_ITEMS_QUERY}
-          variables={{ skip: page * perPage - perPage }}
-        >
+        <Query query={ALL_ITEMS_QUERY} variables={{ skip }}>
           {({ data, error, loading }) => {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error: {error.message}</p>;
             return (
               <ItemsList>
                 {data.items.map(item => (
-                  <Item key={item.id} item={item} />
+                  <Item key={item.id} item={item} page={page} />
                 ))}
               </ItemsList>
             );
