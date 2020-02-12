@@ -34,7 +34,7 @@ class Items extends Component {
             return (
               <ItemsList>
                 {data.items.map(item => (
-                  <Item item={item} />
+                  <Item key={item.id} item={item} />
                 ))}
               </ItemsList>
             );
