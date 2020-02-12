@@ -189,6 +189,25 @@ const Mutations = {
       info
     );
   },
+  async removeFromCart(parent, { id }, ctx, info) {
+    const { userId } = ctx.request;
+    if (!userId) {
+      throw new Error('You must be logged in!');
+    }
+    const cartItem = await ctx.db.query.cartItem(
+      {
+        where: { id },
+      },
+      `{ id, user { id }}`
+    );
+    if (!cartItem) {
+      throw new Error("We couldn't find the item you are trying to delete");
+    }
+    if (cartItem.user.id !== userId) {
+      throw new Error("You can't delete this item");
+    }
+    return ctx.db.mutation.deleteCartItem({ where: { id } }, info);
+  },
 };
 
 module.exports = Mutations;
