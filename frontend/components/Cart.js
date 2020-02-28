@@ -6,6 +6,7 @@ import CartStyles from './styles/CartStyles';
 import CloseButton from './styles/CloseButton';
 import CartItem from './CartItem';
 import User from './User';
+import TakeMyMoney from './TakeMyMoney';
 import { LOCAL_STATE_QUERY } from '../queries';
 import { TOGGLE_CART_MUTATION } from '../mutations';
 import calcTotalPrice from '../lib/calcTotalPrice';
@@ -40,7 +41,9 @@ const Cart = () => (
             </ul>
             <footer>
               <p>{formatMoney(calcTotalPrice(me.cart))}</p>
-              <SickButton>Checkout</SickButton>
+              <TakeMyMoney>
+                <SickButton>Checkout</SickButton>
+              </TakeMyMoney>
             </footer>
           </CartStyles>
         )
