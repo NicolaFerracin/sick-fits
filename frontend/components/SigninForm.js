@@ -31,7 +31,7 @@ class SigninForm extends Component {
         {(signin, { error, loading }) => (
           <Form method="post" onSubmit={e => this.onSubmit(e, signin)}>
             <fieldset disabled={loading} aria-busy={loading}>
-              <h2>Sign up!</h2>
+              <h2>Sign in!</h2>
               <ErrorMessage error={error} />
               <label htmlFor="email">
                 Email

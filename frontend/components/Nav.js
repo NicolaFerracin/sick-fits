@@ -9,10 +9,9 @@ import CartCount from './CartCount';
 const Nav = () => (
   <User>
     {({ data: { me } }) => {
-      const totalItemsCount = me.cart.reduce(
-        (tally, cartItem) => tally + cartItem.quantity,
-        0
-      );
+      const totalItemsCount = me
+        ? me.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)
+        : null;
       return (
         <NavStyles>
           <Link href="/items">
