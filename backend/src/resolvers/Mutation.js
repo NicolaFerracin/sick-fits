@@ -4,6 +4,7 @@ const { randomBytes } = require('crypto');
 const { promisify } = require('util');
 const { transport, makeNiceEmail } = require('../mail.js');
 const { hasPermission } = require('../utils');
+const stripe = require('../stripe');
 
 const JWT_EXPIRATION = 1000 * 60 * 60 * 24 * 7; // 7 days
 const RESET_PASSWORD_TOKEN_EXPIRATION = 1000 * 60 * 60; // 1 hour
@@ -207,6 +208,46 @@ const Mutations = {
       throw new Error("You can't delete this item");
     }
     return ctx.db.mutation.deleteCartItem({ where: { id } }, info);
+  },
+  async createOrder(parent, args, ctx, info) {
+    const { userId } = ctx.request;
+    if (!userId) {
+      throw new Error('You must be logged in!');
+    }
+    const user = await ctx.db.query.user(
+      { where: { id: userId } },
+      `{ id name email cart { id quantity item { title price id description image largeImage } } }`
+    );
+    const amount = user.cart.reduce(
+      (acc, cartItem) => acc + cartItem.item.price * cartItem.quantity,
+      0
+    );
+    const charge = await stripe.charges.create({
+      amount,
+      currency: 'EUR',
+      source: args.token,
+    });
+    const orderItems = user.cart.map(cartItem => {
+      const orderItem = {
+        ...cartItem.item,
+        user: { connect: { id: userId } },
+      };
+      delete orderItem.id;
+      return orderItem;
+    });
+    const order = await ctx.db.mutation.createOrder({
+      data: {
+        total: charge.amount,
+        charge: charge.id,
+        items: { create: orderItems },
+        user: { connect: { id: userId } },
+      },
+    });
+    const cartItemIds = user.cart.map(cartItem => cartItem.id);
+    await ctx.db.mutation.deleteManyCartItems({
+      where: { id_in: cartItemIds },
+    });
+    return order;
   },
 };
 
