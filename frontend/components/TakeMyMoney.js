@@ -13,9 +13,14 @@ class TakeMyMoney extends Component {
   totalItems = cart => cart.reduce((acc, item) => acc + item.quantity, 0);
 
   onToken = async (res, createOrder) => {
+    NProgress.start();
     const order = await createOrder({
       variables: { token: res.id },
     }).catch(err => alert(err.message));
+    Router.push({
+      pathname: '/order',
+      query: { id: order.data.createOrder.id },
+    });
   };
 
   render() {
